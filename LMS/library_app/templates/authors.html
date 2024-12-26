@@ -1,0 +1,27 @@
+{% extends "home.html" %}
+{% block title %}Authors{% endblock %}
+{% block content %}     
+    <h1><u>Authors List</u></h1>
+    <ul>
+        {% for author in authors %}
+            <li>
+                <h1>{{ author.name }}</h1>
+                <p><strong><u>Biography:</u></strong> {{ author.biography }}</p>
+
+                <h3><u>Books by {{ author.name }}:</u></h3>
+                <ul>
+                    {% for book in author.book_set.all %}
+                        <li>{{ book.title }} (ISBN: {{ book.isbn }})</li>
+                    {% empty %}
+                        <li>No books available</li>
+                    {% endfor %}
+                    <hr><hr>
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+    
+</body>
+</html>

@@ -1,0 +1,298 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Homepage{% endblock %}</title>
+    <style>
+        /* General Styling */
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #eaf0f3;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        main {
+            flex: 1;
+            padding: 2em;
+            background-color: #b9aeae;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 2em auto;
+            max-width: 800px;
+            transition: background-color 0.3s;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background-color: #121212;
+            color: #f1f1f1;
+        }
+        body.dark-mode main {
+            background-color: #1c1c1c;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #b58a64d2;
+            color: #ecf0f1;
+            padding: 1em 2em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            transition: background-color 0.3s;
+        }
+        header img {
+            width: 120px;
+            height: auto;
+        }
+        header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            text-transform: uppercase;
+            flex-grow: 1;
+            text-align: center;
+        }
+        header a {
+            text-decoration: none;
+            color: #ecf0f1;
+        }
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 1.5em;
+        }
+        header nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 600;
+            padding: 0.5em 1em;
+            transition: all 0.3s ease;
+        }
+        header nav ul li a:hover {
+            background-color: #34495e;
+            border-radius: 5px;
+        }
+
+        /* Dark Mode Header */
+        body.dark-mode header {
+            background-color: #333;
+        }
+        body.dark-mode header nav ul li a {
+            color: #bdc3c7;
+        }
+        body.dark-mode header nav ul li a:hover {
+            background-color: #444;
+        }
+
+        /* Main Content */
+        main h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+        main p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: center;
+            color: #555;
+        }
+
+        /* Dark Mode Main Content */
+        body.dark-mode main h1 {
+            color: #f1f1f1;
+        }
+        body.dark-mode main p {
+            color: #bdc3c7;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #644e4a;
+            color: #bdc3c7;
+            padding: 2em 1em;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2em;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .footer-content div {
+            flex: 1;
+            min-width: 200px;
+        }
+        .footer-links, .footer-social {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-links li, .footer-social li {
+            margin: 0.5em 0;
+        }
+        .footer-links a, .footer-social a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover, .footer-social a:hover {
+            color: #ecf0f1;
+        }
+
+        /* Adjusting the layout of social media icons */
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            padding: 0.5em;
+            background-color: #34495e;
+            border-radius: 5px;
+            color: #ecf0f1;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .footer-social a:hover {
+            background-color: #2c3e50;
+        }
+
+        .social-icon {
+            width: 40px; /* Increased size for better visibility */
+            height: 40px;
+            margin: 0 5px;
+            transition: transform 0.3s ease; /* Add hover effect */
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2); /* Zoom effect on hover */
+        }
+
+        /* Dark Mode Footer */
+        body.dark-mode footer {
+            background-color: #333;
+            color: #f1f1f1;
+        }
+        body.dark-mode .footer-links a,
+        body.dark-mode .footer-social a {
+            color: #f1f1f1;
+        }
+
+        /* Toggle Button */
+        .dark-mode-toggle {
+            background-color: #34495e;
+            color: #ecf0f1;
+            border: none;
+            padding: 0.5em 1em;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .dark-mode-toggle:hover {
+            background-color: #2c3e50;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+            header h1 {
+                font-size: 1.5em;
+                text-align: center;
+                margin: 0.5em 0;
+            }
+            header nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1em;
+            }
+            main {
+                padding: 1em;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-social {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{% static 'logo.jpg' %}" alt="Library Logo" style="width: 100px; height: auto;">
+        <h1><a href='/'>Welcome to the Library Portal</a></h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'authors' %}">Authors</a></li>
+                <li><a href="{% url 'available_books' %}">Available Books</a></li>
+                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+            </ul>
+        </nav>
+        <button class="dark-mode-toggle" id="toggleDarkMode">Toggle Dark Mode</button>
+    </header>
+
+    <main>
+        {% block content %}
+            <h1> Welcome to the Library portal.</h1>
+            <p>Your community hub for knowledge, creativity, and connection!<br> Explore our collections, discover new programs, and experience the joy of learning.</p>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'about_us' %}">About Us</a></li>
+                    <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'terms' %}">Terms of Service</a></li>
+                    <li><a href="{% url 'admin:index' %}">Admin login</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <p>Email: info@library.com</p>
+                <p>Phone: +91 123456789</p>
+            </div>
+            <div>
+                <h4>Follow Us</h4>
+                <ul class="footer-social">
+                    <li><a href="https://www.facebook.com"> <img src="{% static 'facebook.png' %}" alt="Facebook" class="social-icon"> </a></li>
+                    <li><a href="https://www.twitter.com"> <img src="{% static 'twitter.png' %}" alt="Twitter" class="social-icon"> </a></li>
+                    <li><a href="https://www.instagram.com"> <img src="{% static 'instagram.jpg' %}" alt="Instagram" class="social-icon"> </a></li>
+                </ul>
+            </div>
+        </div>
+        <p>Made with &#10084; using HTML, CSS, Django Framework <br> Made by Aniruddha Shukla</p>
+    </footer>
+
+    <script>
+        const toggleButton = document.getElementById('toggleDarkMode');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
